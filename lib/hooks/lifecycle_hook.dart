@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class LifecycleHook<T> extends Hook<T> {
-  final Function(BuildContext, LifecycleHookState<T>, void Function()) builder;
+  final Function(BuildContext, LifecycleHookState<T>) builder;
   final void Function(LifecycleHookState<T>) initHook;
   final void Function(LifecycleHookState<T>) dispose;
   final void Function(LifecycleHookState<T>) didBuild;
@@ -25,7 +25,7 @@ class LifecycleHookState<T> extends HookState<T, LifecycleHook<T>> {
 
   // Build doesn't return a Widget but rather the Lifecycle
   @override
-  T build(BuildContext context) => (hook.builder ?? (_, __, ___) => state)(context, this, () => this.setState);
+  T build(BuildContext context) => (hook.builder ?? (_, __) => state)(context, this);
 
   @override
   void initHook() => (hook.initHook != null) ? hook.initHook(this) : null;
