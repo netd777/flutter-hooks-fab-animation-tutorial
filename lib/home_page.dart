@@ -6,10 +6,8 @@ import 'package:flutter_hooks_fab_scroll_tutorial/hooks/scroll_controller_for_an
 class HomePage extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final hideFabAnimController = useAnimationController(
-        duration: kThemeAnimationDuration, initialValue: 1);
-    final scrollController =
-        useScrollControllerForAnimation(hideFabAnimController);
+    final hideFabAnimController = useAnimationController(duration: kThemeAnimationDuration, initialValue: 1);
+    final scrollController = useScrollControllerForAnimation(hideFabAnimController);
     return Scaffold(
       appBar: AppBar(
         title: Text("Let's Scroll"),
@@ -20,7 +18,16 @@ class HomePage extends HookWidget {
           scale: hideFabAnimController,
           child: FloatingActionButton.extended(
             label: const Text('Useless Floating Action Button'),
-            onPressed: () {},
+            onPressed: () {
+              // to be sure we're disposing
+              Navigator.of(context).pushReplacement(
+                Scaffold(
+                  appBar: AppBar(
+                    title: Text("Done Scrolling!"),
+                  ),
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -28,8 +35,7 @@ class HomePage extends HookWidget {
       body: ListView(
         controller: scrollController,
         children: <Widget>[
-          for (int i = 0; i < 5; i++)
-            Card(child: FittedBox(child: FlutterLogo())),
+          for (int i = 0; i < 5; i++) Card(child: FittedBox(child: FlutterLogo())),
         ],
       ),
     );
